@@ -1,0 +1,66 @@
+# ====================================
+# PYTHON BASICS
+# ====================================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ====================================
+# ENVIRONMENTS
+# ====================================
+venv/
+env/
+ENV/
+.venv/
+.idea/
+.vscode/
+
+# ====================================
+# TEST / LOGS / CACHE
+# ====================================
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.DS_Store
+
+# ====================================
+# COMPILED / BUILD FILES
+# ====================================
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# ====================================
+# SYSTEM FILES (Windows / macOS)
+# ====================================
+Thumbs.db
+desktop.ini
+
+# ====================================
+# MISC
+*.bak
+*.tmp
+*.swp
+*.lock
+*.pid
+
+# ====================================
+# FLASK / FASTAPI
+# ====================================
+instance/
+*.sqlite
+*.db
+
+# ====================================
+# FRONTEND (if applicable)
+# ====================================
+node_modules/
+app/Front/static/js/__pycache__/
+app/Front/static/css/__pycache__/

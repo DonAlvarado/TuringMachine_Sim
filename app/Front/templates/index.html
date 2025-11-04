@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulador de Máquina de Turing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="flex flex-col min-h-screen items-center justify-between">
+
+  <header class="w-full text-center py-6 border-b border-gray-300">
+    <h1 class="text-3xl font-semibold tracking-wide">Simulador de Máquina de Turing</h1>
+    <p class="text-gray-600 mt-2">Analizador visual paso a paso</p>
+  </header>
+
+  <main class="flex flex-col items-center justify-center flex-grow w-full mt-8 gap-6">
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <input id="inputString" type="text" placeholder="Ingresa la cadena a analizar..."
+             class="border border-gray-400 rounded-md p-3 w-80 focus:ring-2 focus:ring-gray-600 focus:outline-none bg-white/80" />
+
+      <select id="regexChoice" class="border border-gray-400 rounded-md p-3 bg-white/90">
+        <option value="r1">(a|b)*abb</option>
+        <option value="r2">0*1*</option>
+        <option value="r3">(ab)*</option>
+        <option value="r4">1(01)*0</option>
+        <option value="r5">(a+b)*a(a+b)*</option>
+      </select>
+
+      <button id="btnSimular" class="bg-black text-white px-5 py-3 rounded-md hover:bg-gray-800 transition"
+              onclick="startSimulation()">
+        Simular
+      </button>
+    </div>
+
+    <div class="tape-wrapper" id="tapeWrapper">
+      <div id="headAction" class="head-action">Listo</div>
+      <div class="head-visual" id="head"></div>
+      <div class="tape" id="tape">
+        <!-- Se llena dinámicamente -->
+      </div>
+    </div>
+
+    <p id="result" class="result-label"></p>
+  </main>
+
+  <footer class="w-full border-t border-gray-300 mt-10 py-6 grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+    <div class="text-center">
+      <h2 class="font-bold">Estados</h2>
+      <table id="statesTable" class="mx-auto mt-3 border border-gray-300 text-sm">
+        <tr><th class="px-2 py-1 border">Estado</th></tr>
+      </table>
+    </div>
+    <div class="text-center">
+      <h2 class="font-bold">Transiciones</h2>
+      <table id="transitionsTable" class="mx-auto mt-3 border border-gray-300 text-sm">
+        <tr>
+          <th class="px-2 py-1 border">De</th>
+          <th class="px-2 py-1 border">Leer</th>
+          <th class="px-2 py-1 border">→ A</th>
+          <th class="px-2 py-1 border">Escribir</th>
+          <th class="px-2 py-1 border">Mov</th>
+        </tr>
+      </table>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+</body>
+</html>
