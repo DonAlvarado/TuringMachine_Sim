@@ -1,0 +1,5 @@
+(a|b)*abb:
+aabb
+babb
+ababa
+bbbab
