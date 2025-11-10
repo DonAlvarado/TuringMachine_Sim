@@ -1,24 +1,18 @@
-// ===========================
-//  Simulación Máquina Turing
-// ===========================
-
 const WRITE_DELAY = 90;    // ms por carácter al escribir en la cinta
 const STEP_DELAY  = 1500;  // ms entre pasos
 
-// Mapa de <option value="..."> a patrón que el backend espera
 const REGEX_MAP = {
   r1: "(a|b)*abb",
   r2: "0*1*",
   r3: "(ab)*",
   r4: "1(01)*0",
-  // Tu HTML muestra (a+b)*a(a+b)*, pero el parser usa '|' para alternancia
   r5: "(a|b)*a(a|b)*"
 };
 
 async function startSimulation() {
   const input = document.getElementById("inputString").value.trim();
   const choice = document.getElementById("regexChoice").value;
-  const regexPattern = REGEX_MAP[choice] || choice; // por si algún día pones el patrón directo
+  const regexPattern = REGEX_MAP[choice] || choice;
 
   const tape = document.getElementById("tape");
   const wrapper = document.getElementById("tapeWrapper");
@@ -33,7 +27,6 @@ async function startSimulation() {
     return;
   }
 
-  // Reset UI
   resultLabel.textContent = "";
   resultLabel.className = "result-label";
   statesTable.innerHTML = "<tr><th class='px-2 py-1 border'>Estado</th></tr>";
@@ -46,7 +39,6 @@ async function startSimulation() {
       <th class="px-2 py-1 border">Mov</th>
     </tr>`;
 
-  // Construir cinta vacía
   const blanks = 25;
   const totalLen = blanks * 2 + input.length;
   tape.innerHTML = "";
@@ -58,7 +50,6 @@ async function startSimulation() {
   }
   const cells = Array.from(tape.children);
 
-  // Animación de escritura
   headAction.textContent = "Escribiendo cinta…";
   for (let i = blanks; i < blanks + input.length; i++) {
     cells[i].classList.add("active");
@@ -67,12 +58,10 @@ async function startSimulation() {
     cells[i].classList.remove("active");
   }
 
-  // Posición inicial
   let index = blanks;
   highlightCell(cells, index);
   centerOnCell(wrapper, tape, cells[index]);
 
-  // Llamada al backend Flask (ahora sí, con el patrón correcto)
   headAction.textContent = "Preparando simulación…";
   const res = await fetch("/simulate", {
     method: "POST",
@@ -100,9 +89,8 @@ async function startSimulation() {
   const steps = data.steps || [];
   let currentState = "q0";
 
-  // Paso a paso
   for (let i = 0; i < steps.length; i++) {
-    const s = steps[i]; // {from, read, to, write, move}
+    const s = steps[i];
     headAction.textContent = `q=${currentState} | Leer '${s.read}' → Escribir '${s.write}'`;
 
     if (cells[index]) cells[index].textContent = s.write;
@@ -133,7 +121,6 @@ async function startSimulation() {
     await wait(STEP_DELAY);
   }
 
-  // Resultado
   const final = data.result || "reject";
   highlightCell(cells, index);
   headAction.textContent = final === "accept" ? "Cadena aceptada ✅" : "Cadena rechazada ❌";
@@ -141,9 +128,6 @@ async function startSimulation() {
   resultLabel.className = "result-label " + (final === "accept" ? "result-accept" : "result-reject");
 }
 
-// ======================
-// Utilidades
-// ======================
 function wait(ms) {
   return new Promise(r => setTimeout(r, ms));
 }
@@ -153,7 +137,6 @@ function highlightCell(cells, index) {
   if (cells[index]) cells[index].classList.add("active");
 }
 
-// Centra la celda objetivo bajo el cabezal usando posiciones reales
 function centerOnCell(wrapper, tape, cell) {
   if (!cell) return;
 
@@ -165,7 +148,6 @@ function centerOnCell(wrapper, tape, cell) {
 
   const delta = wrapperCenter - cellCenter;
 
-  // Obtener translateX actual para no acumular errores por transición CSS
   const style = getComputedStyle(tape).transform;
   let currentX = 0;
   if (style && style !== "none") {
